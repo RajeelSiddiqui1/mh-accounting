@@ -20,7 +20,7 @@ const About = () => {
             
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white leading-tight">
               Accounting Evolved. <br />
-              <span className="text-emerald-600 dark:text-mint-400">Tech-Driven. Human-Led.</span>
+              <span className="text-gradient">Tech-Driven. Human-Led.</span>
             </h2>
             
             <p className="text-lg text-slate-600 dark:text-slate-300">

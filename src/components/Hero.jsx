@@ -23,14 +23,14 @@ const Hero = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
             </span>
-            <span className="text-sm font-semibold text-emerald-800 dark:text-mint-300 uppercase tracking-wider">
+            <span className="text-sm font-bold text-emerald-800 dark:text-mint-300 uppercase tracking-wider">
               Canada-Registered Virtual Firm
             </span>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white leading-tight">
             Cloud Accounting <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-mint-400 dark:from-mint-300 dark:to-emerald-500">
+            <span className="text-gradient">
               Engineered
             </span> <br />
             for Canadian Growth.
@@ -41,11 +41,11 @@ const Hero = () => {
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
-            <Link to="/contact" className="inline-flex items-center group px-8 py-4 rounded-full bg-slate-900 text-white dark:bg-emerald-600 dark:hover:bg-emerald-500 font-semibold hover:scale-105 transition-transform shadow-xl">
+            <Link to="/contact" className="btn-primary inline-flex items-center group">
               Book a Strategy Call
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
             </Link>
-            <Link to="/services" className="px-8 py-4 rounded-full border-2 border-slate-300 dark:border-slate-700 font-semibold text-slate-800 dark:text-slate-200 hover:border-slate-900 dark:hover:border-slate-500 transition-colors">
+            <Link to="/services" className="btn-secondary">
               Explore Services
             </Link>
           </div>

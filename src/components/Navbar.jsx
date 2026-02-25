@@ -103,7 +103,7 @@ const Navbar = () => {
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
           
-          <Link to="/contact" className="px-6 py-2.5 rounded-full bg-slate-900 text-white font-medium hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+          <Link to="/contact" className="px-7 py-2.5 rounded-2xl bg-slate-900 text-white font-semibold hover:bg-slate-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-95">
             Book an Intro
           </Link>
         </div>
