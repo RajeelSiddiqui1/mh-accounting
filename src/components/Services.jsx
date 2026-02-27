@@ -1,84 +1,45 @@
-import { motion } from 'framer-motion';
-import { Calculator, FileText, BarChart, MonitorSmartphone } from 'lucide-react';
+import { ArrowRight, Clock, CheckCircle2 } from "lucide-react";
+import { services } from "../constants";
+import { Link } from "react-router-dom";
 
-const services = [
-  {
-    title: 'Online Bookkeeping',
-    description: 'Make smarter and quicker decisions with effortless bookkeeping services. Effortless and accurate.',
-    icon: Calculator,
-    delay: 0.1
-  },
-  {
-    title: 'Corporate Tax & Compliance',
-    description: 'Year-end support, compliance and strategic tax planning tailored for Canadian businesses.',
-    icon: FileText,
-    delay: 0.2
-  },
-  {
-    title: 'CFO Advisory',
-    description: 'Virtual controllership for scaling businesses. Level up your financial statements and month-end closings.',
-    icon: BarChart,
-    delay: 0.3
-  },
-  {
-    title: 'Tech Stack Design',
-    description: 'Let us design financial workflows that scale as you grow. Implementing Xero/QBO and automated workflows.',
-    icon: MonitorSmartphone,
-    delay: 0.4
-  }
-];
-
-const Services = () => {
+export const Services = () => {
   return (
-    <section id="services" className="py-24 relative overflow-hidden bg-white dark:bg-emerald-950/20">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6"
-          >
-            Capabilities that scale with your ambitions.
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-lg text-slate-600 dark:text-slate-300"
-          >
-            We intimately understand the challenges and needs of growing businesses to streamline their financial operations.
-          </motion.p>
+    <section id="services" className="section-padding bg-secondary">
+      <div className="container-custom">
+        <div className="text-center max-w-2xl mx-auto mb-14" data-aos="fade-up">
+          <span className="text-primary font-medium text-sm uppercase tracking-wider">Support Services</span>
+          <h2 className="mt-3 text-3xl md:text-4xl font-heading font-bold text-foreground">The Best Option For Your Finances</h2>
+          <p className="mt-4 text-muted-foreground">We specialize in providing comprehensive financial services tailored to meet the unique needs of our clients.</p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: service.delay, duration: 0.5 }}
-              whileHover={{ y: -10 }}
-              className="glassmorphism p-8 rounded-3xl glow-border group relative overflow-hidden"
-            >
-              <div className="absolute -right-8 -top-8 w-32 h-32 bg-mint-100 dark:bg-emerald-800/30 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              <div className="h-14 w-14 rounded-2xl bg-emerald-50 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-mint-400 mb-6 group-hover:scale-110 transition-transform duration-300 relative z-10 shadow-sm border border-emerald-100 dark:border-emerald-800/50">
-                <service.icon size={28} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {services.map((s, i) => (
+            <div key={i} data-aos="fade-up" data-aos-delay={i * 100} className="bg-card rounded-xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 group border border-border hover:-translate-y-1">
+              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary transition-colors">
+                <s.icon className="w-7 h-7 text-primary group-hover:text-primary-foreground transition-colors" />
               </div>
-              
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 relative z-10">{service.title}</h3>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed relative z-10">
-                {service.description}
-              </p>
-            </motion.div>
+              <h4 className="font-heading font-semibold text-lg text-foreground">{s.title}</h4>
+              <p className="mt-3 text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
+              {/* Quick Benefits */}
+              <ul className="mt-4 space-y-1.5">
+                {s.benefits && s.benefits.map((b, j) => (
+                  <li key={j} className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-5 pt-4 border-t border-border/50 flex items-center justify-between">
+                <Link to={`/services/${s.title.toLowerCase().replace(/\s+/g, "-")}`} className="inline-flex items-center gap-2 text-primary font-medium text-sm hover:gap-3 transition-all">
+                  Read More <ArrowRight className="w-4 h-4" />
+                </Link>
+                <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <Clock className="w-3 h-3" /> 24h Support
+                </span>
+              </div>
+            </div>
           ))}
         </div>
       </div>
     </section>
   );
 };
-
-export default Services;

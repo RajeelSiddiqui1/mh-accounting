@@ -1,161 +1,162 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Sun, Moon, Menu, X, ChevronDown } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Phone, Menu, X, ChevronDown } from "lucide-react";
 
-const Navbar = () => {
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof document !== 'undefined') {
-      return document.documentElement.classList.contains('dark');
-    }
-    return false;
-  });
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [servicesDropdown, setServicesDropdown] = useState(false);
-  const location = useLocation();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
-  };
-
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Team', href: '/team' },
-    { name: 'Blog', href: '/blog' },
-  ];
-
-  const serviceLinks = [
-    { name: 'Online Bookkeeping', href: '/services/online-bookkeeping' },
-    { name: 'Accounting & Tax', href: '/services/accounting-and-tax' },
-    { name: 'Technology System Design', href: '/services/technology-system-design' },
-    { name: 'Controllership', href: '/services/controllership' },
-  ];
+export const Navbar = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [newsDropdownOpen, setNewsDropdownOpen] = useState(false); // This one is redundant now but I'll keep it for safety if used elsewhere
 
   return (
-    <motion.nav 
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 px-4 py-4 transition-all duration-300 ${scrolled ? 'backdrop-blur-xl bg-white/70 dark:bg-slate-950/70 border-b border-slate-200/50 dark:border-slate-800/50 shadow-sm' : 'bg-transparent'}`}
-    >
-      <div className="max-w-7xl mx-auto flex justify-between items-center rounded-2xl">
-        
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center space-x-1 group">
-          <span>MHE<span className="font-light text-slate-500">.</span>Accounting</span>
-          <span className="h-2 w-2 rounded-full bg-emerald-500 group-hover:bg-emerald-400 transition-colors"></span>
+    <nav className="bg-background sticky top-0 z-50 shadow-sm border-b border-border/50">
+      <div className="container-custom flex items-center justify-between py-3 px-4 md:px-6 lg:px-10">
+        <Link to="/" className="flex items-center gap-2">
+          <img src="/logo.png" alt="MHE Accounting Logo" className="h-9 w-auto object-contain" />
         </Link>
-
-        {/* Desktop Links */}
-        <div className="hidden lg:flex items-center space-x-8">
-          <Link to="/" className={`font-medium transition-colors ${location.pathname === '/' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'}`}>Home</Link>
-          
-          <div className="relative group cursor-pointer" onMouseEnter={() => setServicesDropdown(true)} onMouseLeave={() => setServicesDropdown(false)}>
-            <Link to="/services" className={`font-medium flex items-center transition-colors ${location.pathname.startsWith('/services') ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'}`}>
-              Services <ChevronDown className="ml-1" size={16} />
-            </Link>
-            <AnimatePresence>
-              {servicesDropdown && (
-                <motion.div 
-                   initial={{ opacity: 0, y: 10 }}
-                   animate={{ opacity: 1, y: 0 }}
-                   exit={{ opacity: 0, y: 10 }}
-                   className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-64 glass-card rounded-2xl shadow-xl overflow-hidden py-2"
-                >
-                  {serviceLinks.map(link => (
-                    <Link key={link.name} to={link.href} className="block px-6 py-3 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800/50 transition-colors">
-                      {link.name}
-                    </Link>
-                  ))}
-                  <div className="px-6 py-3 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
-                     <Link to="/services" className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 flex items-center">
-                       View All Services <span className="ml-2">→</span>
-                     </Link>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-          <Link to="/about" className={`font-medium transition-colors ${location.pathname === '/about' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'}`}>About</Link>
-          <Link to="/team" className={`font-medium transition-colors ${location.pathname === '/team' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'}`}>Team</Link>
-          <Link to="/blog" className={`font-medium transition-colors ${location.pathname === '/blog' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'}`}>Blog</Link>
-        </div>
-
-        {/* CTA & Actions */}
-        <div className="hidden lg:flex items-center space-x-4">
-          <button 
-            onClick={toggleTheme}
-            className="p-2.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition shadow-sm hover:shadow"
-            aria-label="Toggle Theme"
+        <ul className="hidden lg:flex items-center gap-5 z-50">
+          {/* About Dropdown */}
+          <li 
+            className="relative"
+            onMouseEnter={() => setDropdownOpen('about')}
+            onMouseLeave={() => setDropdownOpen(null)}
           >
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-          
-          <Link to="/contact" className="px-7 py-2.5 rounded-2xl bg-slate-900 text-white font-semibold hover:bg-slate-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:scale-95">
-            Book an Intro
-          </Link>
-        </div>
-
-        {/* Mobile menu button */}
-        <div className="lg:hidden flex items-center space-x-3">
-          <button onClick={toggleTheme} className="p-2 text-slate-700 dark:text-slate-200">
-            {isDark ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-          <button 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="text-slate-700 dark:text-slate-200 p-2"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 overflow-hidden absolute top-full left-0 right-0 shadow-2xl"
-          >
-            <div className="flex flex-col p-6 space-y-4">
-              <Link to="/" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium text-slate-800 dark:text-slate-200">Home</Link>
-              <Link to="/services" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium text-slate-800 dark:text-slate-200">Services</Link>
-              <div className="pl-4 border-l-2 border-slate-200 dark:border-slate-800 space-y-3 my-2">
-                 {serviceLinks.map(link => (
-                    <Link key={link.name} to={link.href} onClick={() => setIsMenuOpen(false)} className="block text-slate-600 dark:text-slate-400">{link.name}</Link>
-                 ))}
-              </div>
-              <Link to="/about" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium text-slate-800 dark:text-slate-200">About</Link>
-              <Link to="/team" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium text-slate-800 dark:text-slate-200">Team</Link>
-              <Link to="/blog" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium text-slate-800 dark:text-slate-200">Blog</Link>
-              
-              <Link 
-                to="/contact" 
-                onClick={() => setIsMenuOpen(false)}
-                className="mt-6 text-center px-6 py-3 rounded-xl bg-slate-900 text-white font-medium dark:bg-slate-100 dark:text-slate-900"
-              >
-                Book an Intro
+            <button className="flex items-center gap-1 text-sm font-medium text-foreground hover:text-primary transition-colors focus:outline-none py-2">
+              About Us <ChevronDown className={`w-4 h-4 transition-transform ${dropdownOpen === 'about' ? 'rotate-180' : ''}`} />
+            </button>
+            <div 
+              className={`absolute top-full left-0 mt-0 w-48 bg-background border border-border rounded-lg shadow-xl overflow-hidden transition-all duration-200 transform origin-top ${dropdownOpen === 'about' ? 'opacity-100 scale-y-100 visible' : 'opacity-0 scale-y-95 invisible'}`}
+            >
+              <Link to="/about" onClick={() => setDropdownOpen(null)} className="block px-5 py-3 text-sm text-foreground hover:bg-secondary hover:text-primary transition-colors font-medium border-b border-border/50 last:border-0">
+                About Us
+              </Link>
+              <Link to="/team" onClick={() => setDropdownOpen(null)} className="block px-5 py-3 text-sm text-foreground hover:bg-secondary hover:text-primary transition-colors font-medium border-b border-border/50 last:border-0">
+                Our Team
               </Link>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+          </li>
+          
+          {/* Services Dropdown */}
+          <li 
+            className="relative"
+            onMouseEnter={() => setDropdownOpen('services')}
+            onMouseLeave={() => setDropdownOpen(null)}
+          >
+            <button className="flex items-center gap-1 text-sm font-medium text-foreground hover:text-primary transition-colors focus:outline-none py-2">
+              Services <ChevronDown className={`w-4 h-4 transition-transform ${dropdownOpen === 'services' ? 'rotate-180' : ''}`} />
+            </button>
+            <div 
+              className={`absolute top-full left-0 mt-0 w-48 bg-background border border-border rounded-lg shadow-xl overflow-hidden transition-all duration-200 transform origin-top ${dropdownOpen === 'services' ? 'opacity-100 scale-y-100 visible' : 'opacity-0 scale-y-95 invisible'}`}
+            >
+              <Link to="/services" onClick={() => setDropdownOpen(null)} className="block px-5 py-3 text-sm text-foreground hover:bg-secondary hover:text-primary transition-colors font-medium border-b border-border/50 last:border-0">
+                Services
+              </Link>
+              <Link to="/services/tax-planning" onClick={() => setDropdownOpen(null)} className="block px-5 py-3 text-sm text-foreground hover:bg-secondary hover:text-primary transition-colors font-medium border-b border-border/50 last:border-0">
+                Service Detail
+              </Link>
+            </div>
+          </li>
+
+          <li>
+            <Link to="/pricing" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Pricing</Link>
+          </li>
+          <li>
+            <Link to="/faqs" className="text-sm font-medium text-foreground hover:text-primary transition-colors">FAQs</Link>
+          </li>
+                
+          {/* News Dropdown */}
+          <li 
+            className="relative"
+            onMouseEnter={() => setDropdownOpen('news')}
+            onMouseLeave={() => setDropdownOpen(null)}
+          >
+            <button className="flex items-center gap-1 text-sm font-medium text-foreground hover:text-primary transition-colors focus:outline-none py-2">
+              News <ChevronDown className={`w-4 h-4 transition-transform ${dropdownOpen === 'news' ? 'rotate-180' : ''}`} />
+            </button>
+            <div 
+              className={`absolute top-full left-0 mt-0 w-48 bg-background border border-border rounded-lg shadow-xl overflow-hidden transition-all duration-200 transform origin-top ${dropdownOpen === 'news' ? 'opacity-100 scale-y-100 visible' : 'opacity-0 scale-y-95 invisible'}`}
+            >
+              <Link to="/news" onClick={() => setDropdownOpen(null)} className="block px-5 py-3 text-sm text-foreground hover:bg-secondary hover:text-primary transition-colors font-medium border-b border-border/50 last:border-0">
+                Latest Article
+              </Link>
+              <Link to="/news/single" onClick={() => setDropdownOpen(null)} className="block px-5 py-3 text-sm text-foreground hover:bg-secondary hover:text-primary transition-colors font-medium border-b border-border/50 last:border-0">
+                Single Blog
+              </Link>
+            </div>
+          </li>
+          <li>
+            <Link to="/contact" className="text-sm font-medium text-foreground hover:text-primary transition-colors">Contact Us</Link>
+          </li>
+        </ul>
+        <div className="hidden lg:flex items-center gap-3 border-l border-border pl-6">
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+            <Phone className="w-5 h-5 text-primary" />
+          </div>
+          <div>
+            <span className="block text-xs text-muted-foreground font-medium">Call any time</span>
+            <span className="block text-sm font-bold text-foreground">+1 (604) 555-0198</span>
+          </div>
+        </div>
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-foreground p-2 focus:outline-none">
+          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="lg:hidden bg-background border-t border-border px-4 py-4 max-h-[80vh] overflow-y-auto shadow-inner">
+          <ul className="space-y-1">
+            <li>
+              <Link to="/" onClick={() => setMobileOpen(false)} className="block px-4 py-3 text-sm font-medium text-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors">Homepage</Link>
+            </li>
+            <li>
+              <div className="px-4 py-3 text-sm font-medium text-muted-foreground border-b border-border/30 mb-1">About Menu</div>
+              <ul className="pl-4 border-l-2 border-primary/20 ml-6 space-y-1 my-2">
+                <li>
+                  <Link to="/about" onClick={() => setMobileOpen(false)} className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors">About Us</Link>
+                </li>
+                <li>
+                  <Link to="/team" onClick={() => setMobileOpen(false)} className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors">Our Team</Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div className="px-4 py-3 text-sm font-medium text-muted-foreground border-b border-border/30 mb-1">Services Menu</div>
+              <ul className="pl-4 border-l-2 border-primary/20 ml-6 space-y-1 my-2">
+                <li>
+                  <Link to="/services" onClick={() => setMobileOpen(false)} className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors">All Services</Link>
+                </li>
+                <li>
+                  <Link to="/services/tax-planning" onClick={() => setMobileOpen(false)} className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors">Service Detail</Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div className="px-4 py-3 text-sm font-medium text-muted-foreground border-b border-border/30 mb-1">Pages Menu</div>
+              <ul className="pl-4 border-l-2 border-primary/20 ml-6 space-y-1 my-2">
+                <li>
+                  <Link to="/pricing" onClick={() => setMobileOpen(false)} className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors">Pricing Plan</Link>
+                </li>
+                <li>
+                  <Link to="/faqs" onClick={() => setMobileOpen(false)} className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors">FAQs</Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div className="px-4 py-3 text-sm font-medium text-muted-foreground border-b border-border/30 mb-1">News Menu</div>
+              <ul className="pl-4 border-l-2 border-primary/20 ml-6 space-y-1 my-2">
+                <li>
+                  <Link to="/news" onClick={() => setMobileOpen(false)} className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors">Latest Article</Link>
+                </li>
+                <li>
+                  <Link to="/news/single" onClick={() => setMobileOpen(false)} className="block px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors">Single Blog</Link>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <Link to="/contact" onClick={() => setMobileOpen(false)} className="block px-4 py-3 text-sm font-medium text-foreground hover:bg-secondary hover:text-primary rounded-lg transition-colors">Contact Us</Link>
+            </li>
+          </ul>
+        </div>
+      )}
+    </nav>
   );
 };
-
-export default Navbar;
