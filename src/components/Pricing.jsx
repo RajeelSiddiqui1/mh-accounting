@@ -15,7 +15,7 @@ const QuoteModal = ({ plan, onClose }) => {
 
       {/* Modal */}
       <div
-        className="relative bg-card rounded-2xl shadow-2xl w-full max-w-lg border border-border overflow-hidden"
+        className="relative bg-card rounded-2xl shadow-2xl w-full max-w-lg border border-border overflow-y-auto max-h-[90vh] scrollbar-thin scrollbar-thumb-primary scrollbar-track-transparent"
         onClick={(e) => e.stopPropagation()}
         data-aos="zoom-in"
       >
@@ -120,39 +120,47 @@ export const Pricing = () => {
                 key={i}
                 data-aos="fade-up"
                 data-aos-delay={i * 100}
-                className={`rounded-2xl p-8 border transition-all duration-300 group ${
+                className={`rounded-2xl p-8 border transition-all duration-300 group relative overflow-hidden ${
                   plan.popular
                     ? "bg-section-dark text-section-dark-foreground border-primary shadow-2xl scale-105"
-                    : "bg-card text-foreground border-border hover:shadow-xl hover:-translate-y-1"
+                    : "bg-card text-foreground border-border hover:shadow-2xl hover:-translate-y-2 hover:border-primary/50"
                 }`}
               >
+                {/* Hover gradient overlay for non-popular plans */}
+                {!plan.popular && (
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                )}
                 {plan.popular && (
                   <div className="mb-4">
                     <span className="bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Most Popular</span>
                   </div>
                 )}
-                <span className={`text-sm font-medium ${plan.popular ? "text-primary" : "text-muted-foreground"}`}>{plan.name}</span>
-                <div className="mt-4 flex items-end gap-1">
-                  <span className="text-4xl font-heading font-bold">{plan.price}</span>
+                <span className={`text-sm font-medium relative z-10 ${plan.popular ? "text-primary" : "text-muted-foreground group-hover:text-primary transition-colors duration-300"}`}>{plan.name}</span>
+                <div className="mt-4 flex items-end gap-1 relative z-10">
+                  <span className="text-4xl font-heading font-bold group-hover:scale-110 transition-transform duration-300">{plan.price}</span>
                   <span className={`text-sm mb-1 ${plan.popular ? "text-section-dark-foreground/60" : "text-muted-foreground"}`}>/Month</span>
                 </div>
-                <p className={`text-sm mt-3 leading-relaxed ${plan.popular ? "text-section-dark-foreground/70" : "text-muted-foreground"}`}>
+                <p className={`text-sm mt-3 leading-relaxed relative z-10 ${plan.popular ? "text-section-dark-foreground/70" : "text-muted-foreground group-hover:text-foreground/80 transition-colors duration-300"}`}>
                   Everything you need to manage your finances confidently with a dedicated expert team.
                 </p>
-                <ul className="mt-8 space-y-4">
+                <ul className="mt-8 space-y-4 relative z-10">
                   {plan.features.map((f, j) => (
-                    <li key={j} className="flex items-center gap-3 text-sm">
-                      <Check className="w-4 h-4 flex-shrink-0 text-primary" />
-                      <span>{f}</span>
+                    <li key={j} className="flex items-center gap-3 text-sm group/feature">
+                      <Check className="w-4 h-4 flex-shrink-0 text-primary group-hover/feature:scale-125 transition-transform duration-300" />
+                      <span className="group-hover/feature:translate-x-1 transition-transform duration-300">{f}</span>
                     </li>
                   ))}
                 </ul>
                 <button
                   onClick={() => setSelectedPlan(plan)}
-                  className="mt-8 w-full block text-center py-3.5 rounded-xl font-semibold transition-all bg-primary text-primary-foreground hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5"
+                  className="mt-8 w-full block text-center py-3.5 rounded-xl font-semibold transition-all duration-300 bg-primary text-primary-foreground hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-1.5 hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Get Started
                 </button>
+                {/* Arrow indicator on hover */}
+                <div className="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300">
+                  <span className="text-primary-foreground">→</span>
+                </div>
               </div>
             ))}
           </div>

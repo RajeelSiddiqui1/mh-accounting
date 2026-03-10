@@ -36,9 +36,9 @@ export const teamMembers = [
 ];
 
 export const plans = [
-    { name: "Starter", price: "$49", features: ["Personal tax filing", "Basic bookkeeping", "Quarterly reviews", "Email support", "GST/HST filing"], popular: false },
-    { name: "Professional", price: "$90", features: ["Corporate tax filing", "Full bookkeeping", "Monthly reviews", "Priority support", "Financial statements"], popular: true },
-    { name: "Enterprise", price: "$129", features: ["All Professional features", "Audit services", "Tax strategy planning", "Dedicated advisor", "Year-round support"], popular: false },
+    { name: "Starter", price: "$150 + HST", features: ["Corporate & Personal tax filing", "Payroll management", "Basic bookkeeping", "Quarterly reviews", "Email support", "GST/HST filing"], popular: false },
+    { name: "Professional", price: "$250 + HST", features: ["Corporate & Personal tax filing", "Full bookkeeping", "Monthly reviews", "Priority support", "Financial statements", "CRA correspondence"], popular: true },
+    { name: "Enterprise", price: "$400 + HST", features: ["All Professional features", "Audit services", "Tax strategy planning", "Dedicated advisor", "Year-round support", "Multi-entity management"], popular: false },
 ];
 
 export const faqs = [
