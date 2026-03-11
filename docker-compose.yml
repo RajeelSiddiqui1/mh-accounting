@@ -1,0 +1,9 @@
+version: "3.8"
+
+serivces:
+  build: .
+  container_name: mh_accounting
+  ports:
+    - 5178:80
+
+  restart: always  
