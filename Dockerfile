@@ -1,16 +1,19 @@
+# Stage 1: Build
 FROM node:22 as build
 
 WORKDIR /app
 
-COPY package*.json/
-NPM npm run install
+COPY package*.json ./
+RUN npm install
 
 COPY . .
 RUN npm run build
+RUN npm run export   # only if using next export
 
-FROM nginx:apline
+# Stage 2: Serve with Nginx
+FROM nginx:alpine
 
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/out /usr/share/nginx/html
 
 EXPOSE 80
 
