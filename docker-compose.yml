@@ -1,6 +1,7 @@
 version: "3.8"
 
 services:
+  mh-accounting:   
   build: .
   container_name: mh_accounting
   ports:
