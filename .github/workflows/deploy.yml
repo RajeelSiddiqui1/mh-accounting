@@ -20,16 +20,15 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: root
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            echo "Cleaning old containers..."
-            git config --global --add safe.directory /home/devop/mh-insurance
-            cd /home/devop/mh-insurance
-            docker-compose down
-            echo "Pulling latest code..."
-            git reset --hard
-            git pull origin main
-            echo "Building and starting containers..."
-            docker-compose up -d --build
+         host: ${{ secrets.SSH_HOST }}
+         username: ${{ secrets.SSH_USER }}
+         key: ${{ secrets.SSH_KEY }}
+        script: |
+         echo "Cleaning old containers..."
+         cd /home/mh-projects/mh-accounting
+         docker-compose down
+         echo "Pulling latest code..."
+         git reset --hard
+         git pull origin main
+         echo "Building and starting containers..."
+         docker-compose up -d --build
