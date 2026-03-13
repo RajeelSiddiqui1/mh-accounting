@@ -5,5 +5,6 @@ services:
     build: .
     container_name: mh_accounting
     ports:
-      - "5177:80"   
-    restart: always
+      - 5177:80
+
+  restart: always
