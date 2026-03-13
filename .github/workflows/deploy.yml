@@ -23,12 +23,12 @@ jobs:
          host: ${{ secrets.SSH_HOST }}
          username: ${{ secrets.SSH_USER }}
          key: ${{ secrets.SSH_KEY }}
-        script: |
-         echo "Cleaning old containers..."
-         cd /home/mh-projects/mh-accounting
-         docker-compose down
-         echo "Pulling latest code..."
-         git reset --hard
-         git pull origin main
-         echo "Building and starting containers..."
-         docker-compose up -d --build
+         script: |
+          echo "Cleaning old containers..."
+          cd /home/mh-projects/mh-accounting
+          docker-compose down
+          echo "Pulling latest code..."
+          git reset --hard
+          git pull origin main
+          echo "Building and starting containers..."
+          docker-compose up -d --build
